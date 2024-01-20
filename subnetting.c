@@ -1,38 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-void subnetting(char *ip, int n)
-{
-    // Convert IP address to binary
-    unsigned int ipAddress;
-    scanf(ip, "%u", &ipAddress);
-    unsigned int subnetMask = (1U << 32) - 1;
-    subnetMask <<= (32 - n);
-    unsigned int hostsPerSubnet = (1U << (32 - n)) - 2;
-    unsigned int subnetBase = ipAddress & subnetMask;
-    printf("Subnet Mask: %u\n", subnetMask);
-    printf("Number of Hosts per Subnet: %u\n", hostsPerSubnet);
-    for (int i = 0; i < n; i++)
-    {
-        unsigned int subnetStart = subnetBase + i * (1U << (32 - n));
-        unsigned int subnetEnd = subnetStart + (1U << (32 - n)) - 1;
-        printf("\nSubnet %d:\n", i + 1);
-        printf("Subnet Address Range: %u - %u\n", subnetStart, subnetEnd);
+#include<stdio.h>
+int main(){
+    char data[100];
+    printf("Enter Ip address:");
+    scanf("%s",data);
+    printf("enter number of subnets:");
+    int n;
+    scanf("%d",&n);
+    unsigned long long int num=(pow(2, 32) - 1)-(pow(2,32-n)-1);
+    printf("subnet mask:%llu",num);
+    num=pow(2,32-n);
+    printf("\nNumber of hosts for subnet:%llu",num-2);
+    unsigned long long int sum=0;
+    for(int i=0;i<n;i++){
+        printf("\nsubnet %d\n",i+1);
+        printf("\n Subnet range:%llu to %llu",sum,sum+num-1);
+        sum=num+sum;
+        
+        
     }
-}
-int main()
-{
-    char ipAddress[16]; // IPv4 address
-    int numSubnets;
-    printf("Enter IP address: ");
-    scanf("%15s", ipAddress);
-    printf("Enter the number of subnets: ");
-    scanf("%d", &numSubnets);
-    if (numSubnets <= 0 || numSubnets > 32)
-    {
-        printf("Invalid number of subnets. Please enter a value between 1 and 32.\n");
-        return 1;
-    }
-    subnetting(ipAddress, numSubnets);
-    return 0;
+    
 }
